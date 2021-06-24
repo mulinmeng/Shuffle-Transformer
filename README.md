@@ -6,7 +6,7 @@ The implementation of "Shuffle Transformer: Rethinking Spatial Shuffle for Visio
 
 Very recently, window-based Transformers, which computed self-attention within non-overlapping local windows, demonstrated promising results on image classification, semantic segmentation, and object detection. However, less study has been devoted to the cross-window connection which is the key element to improve the representation ability. **Shuffle Transformer** revisit the spatial shuffle as an efficient way to build connections among windows, which is highly efficient and easy to implement by modifying two lines of code. Furthermore, the depth-wise convolution is introduced to complement the spatial shuffle for enhancing neighbor-window connections. The proposed architectures achieve excellent performance on a wide range of visual tasks including image-level classification, object detection, and semantic segmentation.
 
-![st](figs\shuffle-transformer.jpg)
+![st](figs/shuffle-transformer.jpg)
 
 ## Requirements
 
