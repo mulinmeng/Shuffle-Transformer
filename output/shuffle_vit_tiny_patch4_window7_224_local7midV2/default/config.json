@@ -1,0 +1,86 @@
+AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 1.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.8
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /dockerdata/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 8
+  PIN_MEMORY: true
+  ZIP_MODE: false
+EVAL_MODE: true
+LOCAL_RANK: 0
+MODEL:
+  DROP_PATH_RATE: 0.1
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: shuffle_vit_tiny_patch4_window7_224_local7midV2
+  NUM_CLASSES: 1000
+  RESUME: ../pretrained_models/shuffle_vit_tiny_patch4_window7_224_local7midV2_drop0.1_82.41/ckpt_epoch_298.pth
+  SWIN:
+    APE: false
+    DEPTHS:
+    - 2
+    - 2
+    - 6
+    - 2
+    EMBED_DIM: 96
+    IN_CHANS: 3
+    MLP_RATIO: 4.0
+    NUM_HEADS:
+    - 3
+    - 6
+    - 12
+    - 24
+    PATCH_NORM: true
+    PATCH_SIZE: 4
+    QKV_BIAS: true
+    QK_SCALE: null
+    WINDOW_SIZE: 7
+  TYPE: shuffle
+OUTPUT: output/shuffle_vit_tiny_patch4_window7_224_local7midV2/default
+PRINT_FREQ: 10
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: true
+  BASE_LR: 0.001
+  CLIP_GRAD: 5.0
+  EPOCHS: 300
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MIN_LR: 1.0e-05
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: adamw
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  WARMUP_EPOCHS: 20
+  WARMUP_LR: 1.0e-06
+  WEIGHT_DECAY: 0.05

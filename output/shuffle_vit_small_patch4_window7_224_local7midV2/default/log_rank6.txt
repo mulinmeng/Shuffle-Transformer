@@ -1,0 +1,627 @@
+[2021-06-24 16:13:22 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 346): INFO AMP_OPT_LEVEL: O0
+AUG:
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 1.0
+  CUTMIX_MINMAX: null
+  MIXUP: 0.8
+  MIXUP_MODE: batch
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 128
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: /dockerdata/imagenet
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  NUM_WORKERS: 8
+  PIN_MEMORY: true
+  ZIP_MODE: false
+EVAL_MODE: true
+LOCAL_RANK: 6
+MODEL:
+  DROP_PATH_RATE: 0.3
+  DROP_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+  NAME: shuffle_vit_small_patch4_window7_224_local7midV2
+  NUM_CLASSES: 1000
+  RESUME: ../pretrained_models/shuffle_vit_small_patch4_window7_224_local7midV2_83.54/ckpt_epoch_292.pth
+  SWIN:
+    APE: false
+    DEPTHS:
+    - 2
+    - 2
+    - 18
+    - 2
+    EMBED_DIM: 96
+    IN_CHANS: 3
+    MLP_RATIO: 4.0
+    NUM_HEADS:
+    - 3
+    - 6
+    - 12
+    - 24
+    PATCH_NORM: true
+    PATCH_SIZE: 4
+    QKV_BIAS: true
+    QK_SCALE: null
+    WINDOW_SIZE: 7
+  TYPE: shuffle
+OUTPUT: output/shuffle_vit_small_patch4_window7_224_local7midV2/default
+PRINT_FREQ: 10
+SAVE_FREQ: 1
+SEED: 0
+TAG: default
+TEST:
+  CROP: true
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 0
+  AUTO_RESUME: true
+  BASE_LR: 0.001
+  CLIP_GRAD: 5.0
+  EPOCHS: 300
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    NAME: cosine
+  MIN_LR: 1.0e-05
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: adamw
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  WARMUP_EPOCHS: 20
+  WARMUP_LR: 1.0e-06
+  WEIGHT_DECAY: 0.05
+
+[2021-06-24 16:13:28 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 79): INFO Creating model:shuffle/shuffle_vit_small_patch4_window7_224_local7midV2
+[2021-06-24 16:13:28 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 82): INFO ShuffleTransformer(
+  (to_token): PatchEmbedding(
+    (conv1): Sequential(
+      (0): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+      (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU6(inplace=True)
+    )
+    (conv2): Sequential(
+      (0): Conv2d(32, 96, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+      (1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU6(inplace=True)
+    )
+    (conv3): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1))
+  )
+  (stage1): StageModule(
+    (layers): ModuleList(
+      (0): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(96, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(96, 96, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=96)
+          (drop_path): Identity()
+          (norm2): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(96, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(96, 96, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=96)
+          (drop_path): Identity()
+          (norm2): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+  )
+  (stage2): StageModule(
+    (patch_partition): PatchMerging(
+      input dim=96, out dim=192
+      (norm): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (reduction): Conv2d(96, 192, kernel_size=(2, 2), stride=(2, 2), bias=False)
+    )
+    (layers): ModuleList(
+      (0): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(192, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(192, 192, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(192, 192, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=192)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(192, 768, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(768, 192, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(192, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(192, 192, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(192, 192, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=192)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(192, 768, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(768, 192, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+  )
+  (stage3): StageModule(
+    (patch_partition): PatchMerging(
+      input dim=192, out dim=384
+      (norm): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (reduction): Conv2d(192, 384, kernel_size=(2, 2), stride=(2, 2), bias=False)
+    )
+    (layers): ModuleList(
+      (0): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (2): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (3): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (4): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (5): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (6): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (7): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (8): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(384, 1152, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(384, 384, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(384, 384, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=384)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(384, 1536, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(1536, 384, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+  )
+  (stage4): StageModule(
+    (patch_partition): PatchMerging(
+      input dim=384, out dim=768
+      (norm): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (reduction): Conv2d(384, 768, kernel_size=(2, 2), stride=(2, 2), bias=False)
+    )
+    (layers): ModuleList(
+      (0): ModuleList(
+        (0): Block(
+          (norm1): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(768, 2304, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(768, 768, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(768, 768, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=768)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(768, 3072, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(3072, 768, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (1): Block(
+          (norm1): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (attn): Attention(
+            (to_qkv): Conv2d(768, 2304, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (attn_drop): Dropout(p=0.0, inplace=False)
+            (proj): Conv2d(768, 768, kernel_size=(1, 1), stride=(1, 1))
+            (proj_drop): Dropout(p=0.0, inplace=False)
+          )
+          (local): Conv2d(768, 768, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), groups=768)
+          (drop_path): DropPath()
+          (norm2): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (mlp): Mlp(
+            (fc1): Conv2d(768, 3072, kernel_size=(1, 1), stride=(1, 1))
+            (act): ReLU6()
+            (fc2): Conv2d(3072, 768, kernel_size=(1, 1), stride=(1, 1))
+            (drop): Dropout(p=0.0, inplace=True)
+          )
+          (norm3): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (head): Linear(in_features=768, out_features=1000, bias=True)
+)
+[2021-06-24 16:13:29 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 91): INFO number of params: 50076178
+[2021-06-24 16:13:29 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 118): INFO no checkpoint found in output/shuffle_vit_small_patch4_window7_224_local7midV2/default, ignoring auto resume
+[2021-06-24 16:13:29 shuffle_vit_small_patch4_window7_224_local7midV2] (utils.py 20): INFO ==============> Resuming form ../pretrained_models/shuffle_vit_small_patch4_window7_224_local7midV2_83.54/ckpt_epoch_292.pth....................
+[2021-06-24 16:13:33 shuffle_vit_small_patch4_window7_224_local7midV2] (utils.py 27): INFO <All keys matched successfully>
+[2021-06-24 16:13:38 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 268): INFO Test: [0/49]	Time 4.478 (4.478)	Loss 0.8751 (0.8751)	Acc@1 82.031 (82.031)	Acc@5 96.387 (96.387)	Mem 6699MB
+[2021-06-24 16:13:41 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 268): INFO Test: [10/49]	Time 0.314 (0.713)	Loss 0.8767 (0.8331)	Acc@1 83.105 (83.620)	Acc@5 95.508 (96.458)	Mem 6699MB
+[2021-06-24 16:13:44 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 268): INFO Test: [20/49]	Time 0.323 (0.528)	Loss 0.8552 (0.8272)	Acc@1 82.129 (83.524)	Acc@5 96.094 (96.498)	Mem 6699MB
+[2021-06-24 16:13:48 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 268): INFO Test: [30/49]	Time 0.331 (0.463)	Loss 0.8185 (0.8290)	Acc@1 82.812 (83.433)	Acc@5 96.094 (96.500)	Mem 6699MB
+[2021-06-24 16:13:51 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 268): INFO Test: [40/49]	Time 0.324 (0.430)	Loss 0.8557 (0.8256)	Acc@1 83.301 (83.568)	Acc@5 96.191 (96.520)	Mem 6699MB
+[2021-06-24 16:13:55 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 274): INFO  * Acc@1 83.590 Acc@5 96.546
+[2021-06-24 16:13:55 shuffle_vit_small_patch4_window7_224_local7midV2] (main.py 123): INFO Accuracy of the network on the 50000 test images: 83.6%
