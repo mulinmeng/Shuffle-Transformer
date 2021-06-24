@@ -1,6 +1,6 @@
 # Shuffle Transformer
 
-The implementation of "Shuffle Transformer: Rethinking Spatial Shuffle for Vision Transformer"
+The implementation of "[Shuffle Transformer: Rethinking Spatial Shuffle for Vision Transformer](https://arxiv.org/abs/2106.03650)"
 
 ## Introduction
 
