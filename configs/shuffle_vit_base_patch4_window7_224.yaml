@@ -6,4 +6,8 @@ MODEL:
     EMBED_DIM: 128
     DEPTHS: [ 2, 2, 18, 2 ]
     NUM_HEADS: [ 4, 8, 16, 32 ]
+<<<<<<< HEAD
     WINDOW_SIZE: 7
+=======
+    WINDOW_SIZE: 7
+>>>>>>> c772193bb9b50badd95870e25aa024bd814d282b
